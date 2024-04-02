@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>Release_Date__c &gt; Today()</errorConditionFormula>
+    <errorDisplayField>Release_Date__c</errorDisplayField>
+    <errorMessage>Release Date cannot be greater than today`s date</errorMessage>
+</ValidationRule>

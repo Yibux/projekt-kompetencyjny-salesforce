@@ -24,7 +24,7 @@ global with sharing class RestRegisterClient {
     }
 
     private void createNewClient(ClientWrapper.ClientWrapper client) {
-        if(isHashValid) {
+        if(isHashValid(client.hash)) {
             try {
                 insertClient(client);
             } catch (DmlException e) {

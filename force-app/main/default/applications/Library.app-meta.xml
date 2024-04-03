@@ -17,5 +17,4 @@
     <tabs>Publisher__c</tabs>
     <tabs>standard-Account</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Library_UtilityBar</utilityBar>
 </CustomApplication>

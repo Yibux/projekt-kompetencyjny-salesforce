@@ -4,7 +4,7 @@ global with sharing class RestRegisterClient {
     global static void registerClient() {
         String jsonBody = RestContext.request.requestBody.toString();
 
-        ClientWrapper.ClientWrapper client = (ClientWrapper.ClientWrapper) JSON.deserialize(jsonBody, ClientWrapper.class);
+        ClientWrapper client = (ClientWrapper) JSON.deserialize(jsonBody, ClientWrapper.class);
 
         if(!checkIfMailExists(client.mail)) {
             createNewClient(client);
@@ -18,12 +18,12 @@ global with sharing class RestRegisterClient {
 
 
 
-    private boolean checkIfMailExists(String mail) {
+    private static boolean checkIfMailExists(String mail) {
         List<Client__c> existingClients = [SELECT Id FROM Client__c WHERE Email__c = :mail LIMIT 1];
         return !existingClients.isEmpty();
     }
 
-    private void createNewClient(ClientWrapper.ClientWrapper client) {
+    private static void createNewClient(ClientWrapper client) {
         if(isHashValid(client.hash)) {
             try {
                 insertClient(client);
@@ -37,21 +37,21 @@ global with sharing class RestRegisterClient {
         }
     }
     
-    private void errorClientExists() {
+    private static void errorClientExists() {
         RestContext.response.statusCode = 409;
         RestContext.response.responseBody = Blob.valueOf(JSON.serialize('A user with this mail already exists'));
     }
 
-    private boolean isHashValid(String hash) {
+    private static boolean isHashValid(String hash) {
         return hash.length() == 64;
     }
 
-    private void insertClient(ClientWrapper.ClientWrapper) {
+    private static void insertClient(ClientWrapper client) {
         Client__c newClient = new Client__c();
-        newClient.Email__c = client.Mail;
-        newClient.First_Name__c = client.First_Name;
-        newClient.Last_Name__c = client.Last_Name;
-        newClient.Hash__c = client.Hash;
+        newClient.Email__c = client.mail;
+        newClient.First_Name__c = client.firstName;
+        newClient.Last_Name__c = client.lastName;
+        newClient.Hash__c = client.hash;
 
         insert newClient;
     }

@@ -15,11 +15,8 @@ global with sharing class RestRegisterClient {
         }
     }
 
-
-
-
     private static boolean checkIfMailExists(String mail) {
-        List<Client__c> existingClients = [SELECT Id FROM Client__c WHERE Email__c = :mail LIMIT 1];
+        List<Client__c> existingClients = [SELECT Id FROM Client__c WHERE Email__c =: mail LIMIT 1];
         return !existingClients.isEmpty();
     }
 

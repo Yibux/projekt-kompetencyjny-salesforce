@@ -12,7 +12,7 @@ global with sharing class RestLoginClient {
             //trzebaby dodać metodę w stylu payload(client.hash) czy coś zwracającą to co ma być tam
         } else {
             RestContext.response.statusCode = 400;
-            RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid hash'));
+            RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid Client hash'));
         }
     }
 

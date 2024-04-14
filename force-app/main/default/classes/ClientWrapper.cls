@@ -4,3 +4,5 @@ public with sharing class ClientWrapper {
     public String firstName;
     public String lastName;
 }
+
+//dodać metodę deszyfrującą wiadomość wywoływaną w konstruktorze

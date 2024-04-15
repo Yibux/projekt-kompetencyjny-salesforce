@@ -27,17 +27,12 @@ global with sharing class RestLoginClient {
     }
 
     private static void payload(Id clientId) {
-        List<Loan__c> loans = [SELECT Id, End_Date__c, Item__r.Genre__c, Item__r.Author__c, Item__r.Title__c FROM Loan__c WHERE Client__c =: clientId];
+        List<Loan__c> loans = [SELECT Id, End_Date__c, Item__r.Genre__c, Item__r.Author__r.Name, Item__r.Title__c FROM Loan__c WHERE Client__c =: clientId];
 
         List<LoanWrapper> payload = new List<LoanWrapper>();
 
         for (Loan__c loan : loans) {
-            LoanWrapper lw = new LoanWrapper();
-            lw.loanId = loan.Id;
-            lw.title = loan.Item__r.Title__c;
-            lw.author = loan.Item__r.Author__c;
-            lw.genre = loan.Item__r.Genre__c;
-            lw.dateDue = loan.End_Date__c;
+            LoanWrapper lw = new LoanWrapper(loan);
             payload.add(lw);
         }
 

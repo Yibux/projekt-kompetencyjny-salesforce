@@ -6,14 +6,14 @@ global with sharing class RestLoginClient {
 
         ClientWrapper client = (ClientWrapper) JSON.deserialize(jsonBody, ClientWrapper.class);
 
-        if(checkCredentials(client.hash)) {
-            RestContext.response.statusCode = 200;
-            //Co mam zwrócić dokładnie?
-            //trzebaby dodać metodę w stylu payload(client.hash) czy coś zwracającą to co ma być tam
-        } else {
+        if(checkCredentials(client.hash) == false) {
             RestContext.response.statusCode = 400;
             RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid Client hash'));
         }
+
+        RestContext.response.statusCode = 200;
+        //Co mam zwrócić dokładnie?
+        //trzebaby dodać metodę w stylu payload(client.hash) czy coś zwracającą to co ma być tam
     }
 
     private static boolean checkCredentials(String hash) {

@@ -9,18 +9,19 @@ global with sharing class RestChangePassword {
         if(!isHashValid(clientNew.hash)) {
             RestContext.response.statusCode = 400;
             RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid hash'));
+            return;
         }
 
         Client__c clientOld = getClient(clientNew.hash);
 
-        if(clientOld != null) {
-            changeClientHash(clientOld, clientNew.hash);
-
-            RestContext.response.statusCode = 200;
-        } else {
+        if(clientOld == null) {
             RestContext.response.statusCode = 400;
             RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid Client hash'));
+            return;
         }
+
+        changeClientHash(clientOld, clientNew.hash);
+        RestContext.response.statusCode = 200;
     }
 
     private static Client__c getClient(String hash) {

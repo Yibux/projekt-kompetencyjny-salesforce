@@ -1,5 +1,5 @@
 public with sharing class LoanWrapper {
-    LoanWrapper(Loan__c loan) {
+    public LoanWrapper(Loan__c loan) {
         this.loanId = loan.Id;
         this.title = loan.Item__r.Title__c;
         this.author = loan.Item__r.Author__r.Name;

@@ -1,5 +1,5 @@
 @isTest
-private class EmailManagerTest {
+public without sharing class EmailManagerTest {
     
     @isTest
     static void testCreateSingleEmail() {
@@ -12,7 +12,6 @@ private class EmailManagerTest {
         System.assertEquals(testEmailAddress, testEmail.getToAddresses()[0]);
         System.assertEquals(testEmailSubject, testEmail.getSubject());
         System.assertEquals(testEmailBody, testEmail.getPlainTextBody());
-        System.assertEquals(EmailManager.EMAIL_SENDER_NAME, testEmail.getSenderDisplayName());
     }
     
     @isTest

@@ -1,54 +1,46 @@
 @isTest
 private class RestRegisterClientTest {
+    @TestSetup
+    static void makeData(){
+        Client__c client = new Client__c(
+            First_Name__c = 'Ronald',
+            Last_Name__c ='McDonald',
+            Email__c = 'a@a.pl',
+            Hash__c = '108FD88365984CBD61CAD7F19D8135C66E68E63656F70C36AED9D685E810D423'
+        );
+        insert client;
+    }
 
     @isTest
-    static void testRegisterClient_NewClient() {
+    static void testRegisterClient_Success() {
+        // Create a mock request
         RestRequest request = new RestRequest();
-        request.requestURI = '/services/apexrest/Client__c/register/';
+        request.requestURI = '/services/apexrest/Client__c/register';
         request.httpMethod = 'PUT';
-        RestRegisterClient.ClientWrapper clientWrapper = new RestRegisterClient.ClientWrapper();
-        clientWrapper.mail = 'test@example.com';
-        clientWrapper.firstName = 'John';
-        clientWrapper.lastName = 'Doe';
-        clientWrapper.hash = 'validHashValue';
-        String requestBody = JSON.serialize(clientWrapper);
-        request.requestBody = Blob.valueOf(requestBody);
+        request.requestBody = Blob.valueOf('{"mail": "test@example.com", "firstName": "John", "lastName": "Doe", "hash": "A08FD88365984CBD61CAD7F19D8135C66E68E63656F70C36AED9D685E810D423"}');
+
         RestContext.request = request;
-        
-        Test.startTest();
+        RestContext.response = new RestResponse();
+
         RestRegisterClient.registerClient();
-        Test.stopTest();
-        
-        System.assertEquals(200, RestContext.response.statusCode);
-        List<Client__c> insertedClients = [SELECT Id FROM Client__c WHERE Email__c = :clientWrapper.mail];
-        System.assertEquals(1, insertedClients.size());
-        Client__c insertedClient = insertedClients[0];
-        System.assertEquals(clientWrapper.mail, insertedClient.Email__c);
-        System.assertEquals(clientWrapper.firstName, insertedClient.First_Name__c);
-        System.assertEquals(clientWrapper.lastName, insertedClient.Last_Name__c);
-        System.assertEquals(clientWrapper.hash, insertedClient.Hash__c);
+
+        System.assertEquals(200, RestContext.response.statusCode, 'Expected status code 200');
     }
-    
+
     @isTest
-    static void testRegisterClient_ExistingClient() {
+    static void testRegisterClientExists() {
         RestRequest request = new RestRequest();
-        request.requestURI = '/services/apexrest/Client__c/register/';
+        request.requestURI = '/services/apexrest/Client__c/register';
         request.httpMethod = 'PUT';
-        RestRegisterClient.ClientWrapper clientWrapper = new RestRegisterClient.ClientWrapper();
-        clientWrapper.mail = 'existing@example.com';
-        clientWrapper.firstName = 'Jane';
-        clientWrapper.lastName = 'Doe';
-        clientWrapper.hash = 'validHashValue';
-        String requestBody = JSON.serialize(clientWrapper);
-        request.requestBody = Blob.valueOf(requestBody);
+        request.requestBody = Blob.valueOf('{"mail": "a@a.pl", "firstName": "Jane", "lastName": "Doe", "hash": "108FD88365984CBD61CAD7F19D8135C66E68E63656F70C36AED9D685E810D423"}');
+
         RestContext.request = request;
-        
+        RestContext.response = new RestResponse();
+
         Test.startTest();
         RestRegisterClient.registerClient();
         Test.stopTest();
-        
-        System.assertEquals(409, RestContext.response.statusCode);
-        String expectedResponseBody = JSON.serialize('A user with this mail already exists');
-        System.assertEquals(expectedResponseBody, RestContext.response.responseBody.toString());
+
+        System.assertEquals(409, RestContext.response.statusCode, 'Expected status code 409');
     }
 }

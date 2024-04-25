@@ -1,6 +1,6 @@
 @isTest
 private class RestRegisterClientTest {
-    
+
     @isTest
     static void testRegisterClient_NewClient() {
         RestRequest request = new RestRequest();

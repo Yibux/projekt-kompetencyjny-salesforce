@@ -10,6 +10,7 @@ global with sharing class RestLoginClient {
         if(clientId == null) {
             RestContext.response.statusCode = 400;
             RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid Client hash'));
+            return;
         }
 
         payload(clientId);

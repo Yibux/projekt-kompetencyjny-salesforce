@@ -8,11 +8,11 @@ global with sharing class RestChangePassword {
 
         if(!isHashValid(clientNew.hash)) {
             RestContext.response.statusCode = 400;
-            RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid hash'));
+            RestContext.response.responseBody = Blob.valueOf(JSON.serialize('Invalid new hash'));
             return;
         }
 
-        Client__c clientOld = getClient(clientNew.hash);
+        Client__c clientOld = getClient(clientNew.oldHash);
 
         if(clientOld == null) {
             RestContext.response.statusCode = 400;

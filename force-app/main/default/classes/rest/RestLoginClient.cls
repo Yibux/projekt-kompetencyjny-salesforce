@@ -40,7 +40,7 @@ global with sharing class RestLoginClient {
                  lw = new LoanWrapper(loan,ClientUtils.getCover(new List<ID>{loan.Item__r.ID}).get(loan.Item__r.ID));
             }
             payload.add(lw);
-        }
+        } 
 
         RestContext.response.responseBody = Blob.valueOf(JSON.serialize(payload));
     }

@@ -26,6 +26,7 @@ private class RestLoginClientTest {
         );
         insert mockLoan;
     }
+    
 
     @isTest
     static void testLoginClient_ValidHash() {

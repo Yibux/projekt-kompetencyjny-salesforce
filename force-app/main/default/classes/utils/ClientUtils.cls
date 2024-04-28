@@ -30,7 +30,7 @@ public with sharing class ClientUtils {
         } else {
             return 'ERROR';
         }
-    }
+    } 
 
     private static Blob getBlob(String access_token,ID itemID,ID imageID){
         HttpRequest req = new HttpRequest();

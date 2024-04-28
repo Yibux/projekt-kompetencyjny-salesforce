@@ -4,9 +4,7 @@ public with sharing class ClientUtils {
     private static final String imageUrlTemplate = 'https://empathetic-panda-myq45y-dev-ed.my.salesforce.com/services/data/v58.0/sobjects/Item__c/{0}/richTextImageFields/Cover__c/{1}';
 
     public static Map<Id,Blob> getCover(List<Id> ItemsIDs){
-        // public static Map<Id,String> getCover(List<Id> ItemsIDs){
         Map<Id,Blob> blobs = new Map<Id,Blob>();
-        // Map<Id,String> blobs = new Map<Id,String>();
         Map<Id,String> imageIDs = getImageIDs(ItemsIDs);
         String access_token = getAccessToken();
 
@@ -35,7 +33,6 @@ public with sharing class ClientUtils {
     }
 
     private static Blob getBlob(String access_token,ID itemID,ID imageID){
-        // private static String getBlob(String access_token,ID itemID,ID imageID){
         HttpRequest req = new HttpRequest();
         req.setEndpoint(String.format(imageUrlTemplate, new List<ID>{itemID,imageID}));
         req.setMethod('GET');
@@ -43,14 +40,8 @@ public with sharing class ClientUtils {
 
         HttpResponse res = new Http().send(req);
 
-        System.debug(access_token);
-
-        System.debug(String.format(imageUrlTemplate, new List<ID>{itemID,imageID}));
-
         if (res.getStatusCode() == 200) {
-            // System.System.debug(JSON.serialize(res.getBody()));
             return res.getBodyAsBlob();
-            // return res.getBody();
         } 
         return null;
     }

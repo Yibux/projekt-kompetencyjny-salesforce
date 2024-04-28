@@ -3,7 +3,6 @@
     <fullName>All</fullName>
     <columns>OBJECT_ID</columns>
     <columns>NAME</columns>
-    <columns>Author__c</columns>
     <columns>Genre__c</columns>
     <columns>Publisher__c</columns>
     <columns>Quantity__c</columns>

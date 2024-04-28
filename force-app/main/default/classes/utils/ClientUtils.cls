@@ -6,18 +6,10 @@ public with sharing class ClientUtils {
     public static Map<Id,Blob> getCover(List<Id> ItemsIDs){
         Map<Id,Blob> blobs = new Map<Id,Blob>();
         Map<Id,String> imageIDs = getImageIDs(ItemsIDs);
-        String access_token;
-        if(!Test.isRunningTest() ){
-            access_token = getAccessToken();
-        }
-       
+        String access_token= getAccessToken();
 
         for(ID ItemID : ItemsIDs){
-            if(Test.isRunningTest() || imageIDs.get(ItemID) == null){
-                blobs.put(ItemID,null);
-            }else{
                 blobs.put(ItemID,getBlob(access_token,ItemID,imageIDs.get(ItemID)));
-            }
         }
 
         return blobs;
@@ -59,11 +51,9 @@ public with sharing class ClientUtils {
         List<Item__c> items = [Select ID,Cover__c From Item__c Where ID in: ItemsIDs];
 
         for(Item__c i : items){
-            if(i.Cover__c!=null){
+
                 IDs.put(i.ID,extractIdFromUrl(i.Cover__c));
-            }else{
-                IDs.put(i.ID,null);
-            }
+
         }
 
         return IDs;

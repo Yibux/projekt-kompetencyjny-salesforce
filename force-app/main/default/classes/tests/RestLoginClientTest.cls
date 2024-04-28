@@ -65,7 +65,7 @@ private class RestLoginClientTest {
             System.assertEquals(loan.Item__r.Genre__c, loanWrapper.genre);
         }
 
-    }
+    } 
     
     @isTest
     static void testLoginClientInValidHash() {

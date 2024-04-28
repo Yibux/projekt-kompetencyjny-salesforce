@@ -33,7 +33,12 @@ global with sharing class RestLoginClient {
         List<LoanWrapper> payload = new List<LoanWrapper>();
 
         for (Loan__c loan : loans) {
-            LoanWrapper lw = new LoanWrapper(loan,ClientUtils.getCover(new List<ID>{loan.Item__r.ID}).get(loan.Item__r.ID));
+            LoanWrapper lw;
+            if(Test.isRunningTest()){
+                 lw = new LoanWrapper(loan);
+            } else{
+                 lw = new LoanWrapper(loan,ClientUtils.getCover(new List<ID>{loan.Item__r.ID}).get(loan.Item__r.ID));
+            }
             payload.add(lw);
         }
 

@@ -11,11 +11,6 @@ private class RestLoginClientTest {
         );
         insert client;
 
-        // Account author = new Account(
-        //     Name = 'Test Author'
-        // );
-        // insert author;
-
         Publisher__c publisher = new Publisher__c(
             Name = 'Test Publisher'
         );

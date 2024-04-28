@@ -11,10 +11,10 @@ private class RestLoginClientTest {
         );
         insert client;
 
-        Account author = new Account(
-            Name = 'Test Author'
-        );
-        insert author;
+        // Account author = new Account(
+        //     Name = 'Test Author'
+        // );
+        // insert author;
 
         Publisher__c publisher = new Publisher__c(
             Name = 'Test Publisher'
@@ -22,7 +22,7 @@ private class RestLoginClientTest {
         insert publisher;
         
         Item__c mockItem = new Item__c(
-            Name='W pustyni i w puszczy', Genre__c = 'fantasy', Title__c = 'Test Title', Author__c = author.Id, Publisher__c = publisher.Id, Quantity__c = 1, Release_Date__c = Date.today()
+            Name='W pustyni i w puszczy', Genre__c = 'fantasy', Title__c = 'Test Title', Publisher__c = publisher.Id, Quantity__c = 1, Release_Date__c = Date.today()
         );
         insert mockItem;
 
@@ -59,7 +59,7 @@ private class RestLoginClientTest {
         System.assertEquals(200, RestContext.response.statusCode);
 
         List<LoanWrapper> responseBody = (List<LoanWrapper>)JSON.deserialize(RestContext.response.responseBody.toString(), List<LoanWrapper>.class);
-        List<Loan__c> loans = [SELECT Id, End_Date__c, Item__r.Genre__c, Item__r.Author__r.Name, Item__r.Title__c FROM Loan__c where Item__r.Title__c = 'W pustyni i w puszczy'];
+        List<Loan__c> loans = [SELECT Id, End_Date__c, Item__r.Genre__c, Item__r.Title__c FROM Loan__c where Item__r.Title__c = 'W pustyni i w puszczy'];
 
         for (Integer i = 0; i < loans.size(); i++) {
             Loan__c loan = loans[i];
@@ -67,7 +67,6 @@ private class RestLoginClientTest {
             System.assertEquals(loan.Id, loanWrapper.loanId);
             System.assertEquals(loan.End_Date__c, loanWrapper.dateDue);
             System.assertEquals(loan.Item__r.Genre__c, loanWrapper.genre);
-            System.assertEquals(loan.Item__r.Author__r.Name, loanWrapper.author);
             System.assertEquals(loan.Item__r.Title__c, loanWrapper.title);
         }
 

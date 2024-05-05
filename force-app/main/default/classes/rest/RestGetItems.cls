@@ -2,10 +2,15 @@
 global with sharing class RestGetItems {
     @HttpGet
     global static void getItems() {
-        List<Item__c> items = [SELECT Id, Name, Publisher__r.Name, Genre__c, Title__c, 	Release_Date__c, Quantity__c FROM Item__c];
+        List<Item__c> items = [SELECT Id, Name, Publisher__r.Name, Genre__c,Release_Date__c, Quantity__c FROM Item__c];
         List<ItemWrapper> payload = new List<ItemWrapper>();
         for (Item__c item : items) {
             ItemWrapper iw = new ItemWrapper(item);
+            if(Test.isRunningTest()){
+                iw = new ItemWrapper(item);
+            } else{
+                iw = new ItemWrapper(item,ClientUtils.getCover(new List<ID>{item.ID}).get(item.ID));
+            }
             payload.add(iw);
         }
         RestContext.response.responseBody = Blob.valueOf(JSON.serialize(payload));

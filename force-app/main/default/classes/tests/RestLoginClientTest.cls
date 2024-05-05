@@ -17,7 +17,7 @@ private class RestLoginClientTest {
         insert publisher;
         
         Item__c mockItem = new Item__c(
-            Name='W pustyni i w puszczy', Genre__c = 'fantasy', Title__c = 'Test Title', Publisher__c = publisher.Id, Quantity__c = 1, Release_Date__c = Date.today()
+            Name='W pustyni i w puszczy', Genre__c = 'fantasy', Publisher__c = publisher.Id, Quantity__c = 1, Release_Date__c = Date.today()
         );
         insert mockItem;
 

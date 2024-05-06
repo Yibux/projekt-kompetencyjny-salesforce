@@ -29,7 +29,7 @@ global with sharing class RestLoginClient {
 
     private static void payload(Id clientId) {
         List<Loan__c> loans = [SELECT Id, End_Date__c,Item__r.ID, Item__r.Genre__c, Item__r.Name FROM Loan__c WHERE Client__c =: clientId];
-
+        Map<Id,List<String>> authors = getAuthorsFromItem(loans);
         List<LoanWrapper> payload = new List<LoanWrapper>();
 
         for (Loan__c loan : loans) {
@@ -37,11 +37,21 @@ global with sharing class RestLoginClient {
             if(Test.isRunningTest()){
                  lw = new LoanWrapper(loan);
             } else{
-                 lw = new LoanWrapper(loan,ClientUtils.getCover(new List<ID>{loan.Item__r.ID}).get(loan.Item__r.ID));
+                 lw = new LoanWrapper(loan,authors.get(loan.Item__c),ClientUtils.getCover(new List<ID>{loan.Item__r.ID}).get(loan.Item__r.ID));
             }
             payload.add(lw);
         } 
 
         RestContext.response.responseBody = Blob.valueOf(JSON.serialize(payload));
+    }
+
+    private static Map<Id,List<String>> getAuthorsFromItem(List<Loan__c> loans){
+        List<ID> IDs = new List<Id>();
+
+        for(Loan__c loan : loans){
+            IDs.add(loan.Item__c);
+        }
+
+        return ItemUtils.getAuthorsFromItem([SELECT Id,Name, Publisher__r.Name, Genre__c,Release_Date__c, Quantity__c, (SELECT Id, Account__r.Name FROM AccountJoinItem__r) FROM Item__c where ID in : IDs]);
     }
 }

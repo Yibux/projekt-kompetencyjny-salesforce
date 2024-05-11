@@ -2,7 +2,7 @@
 global with sharing class RestGetItems {
     @HttpGet
     global static void getItems() {
-        List<Item__c> items = [SELECT Id,Name, Publisher__r.Name, Genre__c,Release_Date__c, Quantity__c, (SELECT Id, Account__r.Name FROM AccountJoinItem__r) FROM Item__c];
+        List<Item__c> items = [SELECT Id,Name, Publisher__r.Name, Genre__c,Release_Date__c,Quantity__c,Borrowed_Items__c, (SELECT Id, Account__r.Name FROM AccountJoinItem__r) FROM Item__c];
         List<ItemWrapper> payload = new List<ItemWrapper>();
         Map<Id,List<String>> authors = ItemUtils.getAuthorsFromItem(items);
         for (Item__c item : items) {

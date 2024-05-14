@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Create New Item" icon-name="custom:custom14">
+        <lightning-record-form
+            object-api-name={objectApiName}
+            columns="2"
+            layout-type="Full"
+            onsuccess={handleSuccess}
+            onerror={handleError}
+            >            
+        </lightning-record-form>
+    </lightning-card>
+</template>

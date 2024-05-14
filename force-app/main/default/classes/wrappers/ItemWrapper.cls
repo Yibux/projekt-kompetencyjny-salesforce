@@ -1,6 +1,6 @@
 public with sharing class ItemWrapper {
     public String id;
-    public List<String> authors;
+    public String authors;
     public String publisher;
     public String genre;
     public String title;
@@ -25,7 +25,7 @@ public with sharing class ItemWrapper {
         this.genre = item.Genre__c;
         this.quantity = item.Quantity__c;
         this.cover = cover;
-        this.authors = authors;
+        this.authors = String.join(authors, ', ');
         this.isAvailable = item.Borrowed_Items__c < item.Quantity__c;
     }
 }

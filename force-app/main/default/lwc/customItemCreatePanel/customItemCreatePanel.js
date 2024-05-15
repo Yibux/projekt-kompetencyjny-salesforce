@@ -1,16 +1,14 @@
 import { api, track, LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { createRecord } from 'lightning/uiRecordApi';
 import ITEM_OBJECT from '@salesforce/schema/Item__c';
-import ACCOUNT_OBJECT from '@salesforce/schema/Account';
-import ACCOUNT_JOIN_ITEM_NAME from '@salesforce/schema/AccountJoinItem__c.Name';
 
 export default class CustomItemCreatePanel extends LightningElement {
     @api recordId;
     objectApiName = ITEM_OBJECT;
-    Name = ACCOUNT_JOIN_ITEM_NAME;
-    // fields = [ITEM_OBJECT.Name, ITEM_OBJECT.Price__c, ITEM_OBJECT.Quantity__c, ITEM_OBJECT.Cover__c, ITEM_OBJECT.Release_Date__c,
-    //     ITEM_OBJECT.Genre__c, ACCOUNT_OBJECT.Name];
+    @track numberOfAuthors = 1;
+    selectedAuthors = [];
+    areAuthorFieldsFilled = false;
+
     handleSuccess(event) {
         const evt = new ShowToastEvent({
             title: 'Record created',
@@ -28,5 +26,31 @@ export default class CustomItemCreatePanel extends LightningElement {
             variant: 'error',
         });
         this.dispatchEvent(evt);
+    }
+
+    get authorIndexes() {
+        console.log('author indexes')
+        if (this.numberOfAuthors.toString() === 'NaN')
+        {
+            this.areAuthorFieldsFilled = false;
+            return [];
+        }
+        this.areAuthorFieldsFilled = this.selectedAuthors.length === this.numberOfAuthors;
+        console.log(this.selectedAuthors)
+        return [...Array(this.numberOfAuthors).keys()];
+    }
+
+    handleNumberOfAuthorsChange(event) {
+        this.areAuthorFieldsFilled = this.selectedAuthors.length === this.numberOfAuthors;
+        console.log('handle number of authors change');
+        this.numberOfAuthors = parseInt(event.target.value, 10);
+        this.selectedAuthors = [];
+    }
+
+    handleAuthorChange(event) {
+        console.log('handleauthorchange')
+        this.selectedAuthors = this.selectedAuthors.concat(event.detail);
+        console.log(this.selectedAuthors.length);
+        this.areAuthorFieldsFilled = this.selectedAuthors.length === this.numberOfAuthors;
     }
 }

@@ -13,7 +13,6 @@ private class RestRegisterClientTest {
 
     @isTest
     static void testRegisterClient_Success() {
-        // Create a mock request
         RestRequest request = new RestRequest();
         request.requestURI = '/services/apexrest/Client__c/register';
         request.httpMethod = 'PUT';

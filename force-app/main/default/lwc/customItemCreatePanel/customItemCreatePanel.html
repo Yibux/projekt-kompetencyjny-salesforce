@@ -4,6 +4,7 @@
         <template for:each={authorIndexes} for:item="index">
             <c-add-author-child key={index} number-of-authors={numberOfAuthors} onauthorchange={handleAuthorChange}></c-add-author-child>
         </template>
+        <lightning-button label="Create Item" onclick={handleCreateItem} variant="brand"></lightning-button>
         <template if:true={areAuthorFieldsFilled}>
             <lightning-record-form
             object-api-name={objectApiName}

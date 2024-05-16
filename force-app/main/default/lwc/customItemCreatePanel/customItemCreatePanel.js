@@ -1,6 +1,7 @@
 import { api, track, LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import ITEM_OBJECT from '@salesforce/schema/Item__c';
+import addAuthorToItem from '@salesforce/apex/AccountJoinItemController.createAccountJoinItem';
 
 export default class CustomItemCreatePanel extends LightningElement {
     @api recordId;
@@ -16,6 +17,16 @@ export default class CustomItemCreatePanel extends LightningElement {
             variant: 'success',
         });
         this.dispatchEvent(evt);
+
+        this.selectedAuthors.forEach(author => {
+            addAuthorToItem({itemId: event.detail.id, authorId: author})
+                .then(() => {
+                    console.log('Author added to item');
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
+        });
     }
 
     handleError(error) {
@@ -34,6 +45,8 @@ export default class CustomItemCreatePanel extends LightningElement {
         {
             this.areAuthorFieldsFilled = false;
             return [];
+        } else if (this.numberOfAuthors < this.selectedAuthors.length) {
+            this.selectedAuthors = this.selectedAuthors.slice(0, this.numberOfAuthors);
         }
         this.areAuthorFieldsFilled = this.selectedAuthors.length === this.numberOfAuthors;
         console.log(this.selectedAuthors)
@@ -48,9 +61,13 @@ export default class CustomItemCreatePanel extends LightningElement {
     }
 
     handleAuthorChange(event) {
-        console.log('handleauthorchange')
-        this.selectedAuthors = this.selectedAuthors.concat(event.detail);
-        console.log(this.selectedAuthors.length);
+        const newAuthor = event.detail;
+        if (!this.selectedAuthors.includes(newAuthor)) {
+            this.selectedAuthors = [...this.selectedAuthors, newAuthor];
+        } else {
+            this.selectedAuthors = this.selectedAuthors.filter(author => author !== newAuthor);
+        }
+        console.log(this.selectedAuthors.length, this.numberOfAuthors)
         this.areAuthorFieldsFilled = this.selectedAuthors.length === this.numberOfAuthors;
     }
 }

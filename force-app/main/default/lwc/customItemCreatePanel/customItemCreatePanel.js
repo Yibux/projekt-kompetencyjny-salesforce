@@ -10,23 +10,36 @@ export default class CustomItemCreatePanel extends LightningElement {
     selectedAuthors = [];
     areAuthorFieldsFilled = false;
 
-    handleSuccess(event) {
-        const evt = new ShowToastEvent({
-            title: 'Record created',
-            message: 'Record ID: ' + event.detail.id,
-            variant: 'success',
-        });
-        this.dispatchEvent(evt);
-
-        this.selectedAuthors.forEach(author => {
-            addAuthorToItem({itemId: event.detail.id, authorId: author})
+    handleCreateItem(event) {
+        for( let i = 0; i < this.selectedAuthors.length; i++) {
+            addAuthorToItem({accountId: this.selectedAuthors[i], itemId: 'a02WU000001FLMvYAO'})
                 .then(() => {
                     console.log('Author added to item');
                 })
                 .catch(error => {
                     this.handleError(error);
                 });
+        }
+    }
+
+    handleSuccess(event) {
+        const evt = new ShowToastEvent({
+            title: 'Record created',
+            message: 'Record ID: ' + event.detail.id,
+            variant: 'success',
         });
+
+        for( let i = 0; i < this.selectedAuthors.length; i++) {
+            addAuthorToItem({accountId: this.selectedAuthors[i], itemId: event.detail.id})
+                .then(() => {
+                    console.log('Author added to item');
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
+        }
+        
+        this.dispatchEvent(evt);
     }
 
     handleError(error) {
@@ -65,7 +78,7 @@ export default class CustomItemCreatePanel extends LightningElement {
         if (!this.selectedAuthors.includes(newAuthor)) {
             this.selectedAuthors = [...this.selectedAuthors, newAuthor];
         } else {
-            this.selectedAuthors = this.selectedAuthors.filter(author => author !== newAuthor);
+            // this.selectedAuthors = this.selectedAuthors.filter(author => author !== newAuthor);
         }
         console.log(this.selectedAuthors.length, this.numberOfAuthors)
         this.areAuthorFieldsFilled = this.selectedAuthors.length === this.numberOfAuthors;

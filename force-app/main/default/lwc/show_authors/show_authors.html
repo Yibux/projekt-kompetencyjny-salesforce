@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Associated Accounts" icon-name="standard:account">
+        <template if:true={accounts}>
+            <ul>
+                <template for:each={accounts} for:item="account" for:index="index">
+                    <li key={account.Id}>
+                        <h2>{account.Account__r.Name}</h2>
+                    </li>
+                </template>
+            </ul>
+        </template>
+        <template if:false={accounts}>
+            <p>No accounts found.</p>
+        </template>
+    </lightning-card>
+</template>

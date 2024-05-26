@@ -6,6 +6,7 @@ public with sharing class LoanWrapper {
         this.genre = loan.Item__r.Genre__c;
         this.dateDue = loan.End_Date__c;
         this.cover = null;
+        this.itemId = loan.Item__r.Id;
     }
 
     public LoanWrapper(Loan__c loan,Blob cover) {
@@ -15,6 +16,7 @@ public with sharing class LoanWrapper {
         this.genre = loan.Item__r.Genre__c;
         this.dateDue = loan.End_Date__c;
         this.cover = cover;
+        this.itemId = loan.Item__r.Id;
     }
 
     public LoanWrapper(Loan__c loan,List<String> authors,Blob cover) {
@@ -24,9 +26,11 @@ public with sharing class LoanWrapper {
         this.genre = loan.Item__r.Genre__c;
         this.dateDue = loan.End_Date__c;
         this.cover = cover;
+        this.itemId = loan.Item__r.Id;
     }
 
     public Id loanId;
+    public Id itemId;
     public String title;
     public List<String> authors;
     public String genre;

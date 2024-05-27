@@ -9,7 +9,11 @@ public with sharing class ClientUtils {
         String access_token= getAccessToken();
 
         for(ID ItemID : ItemsIDs){
-                blobs.put(ItemID,getBlob(access_token,ItemID,imageIDs.get(ItemID)));
+            if(imageIDs.get(ItemID) == ''){
+                blobs.put(ItemID,null);
+                continue;
+            }
+            blobs.put(ItemID,getBlob(access_token,ItemID,imageIDs.get(ItemID)));
         }
 
         return blobs;
@@ -60,6 +64,9 @@ public with sharing class ClientUtils {
     }
 
     private static String extractIdFromUrl(String url){
+        if(url == null){
+            return '';
+        }
         Integer refIdIndex = url.indexOf('amp;refid=');
         if (refIdIndex != -1) {
             String refIdValue = url.substring(refIdIndex+10,refIdIndex+25);

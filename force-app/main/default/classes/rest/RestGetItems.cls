@@ -1,4 +1,4 @@
-@RestResource(UrlMapping='/Item__c/*')
+@RestResource(UrlMapping='/Item__c/getItems/*')
 global with sharing class RestGetItems {
     @HttpGet
     global static void getItems() {

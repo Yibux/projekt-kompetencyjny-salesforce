@@ -7,6 +7,7 @@ public with sharing class ItemWrapper {
     public Decimal quantity;
     public Blob cover;
     public Boolean isAvailable;
+    public String Description;
 
     public ItemWrapper(Item__c item) {
         this.id = item.Id;
@@ -17,6 +18,7 @@ public with sharing class ItemWrapper {
         this.quantity = item.Quantity__c;
         this.cover = null;
         this.isAvailable = item.Borrowed_Items__c < item.Quantity__c;
+        this.Description = item.Description__c;
     }
     public ItemWrapper(Item__c item,List<String> authors,Blob cover) {
         this.id = item.Id;
@@ -27,5 +29,6 @@ public with sharing class ItemWrapper {
         this.cover = cover;
         this.authors = authors;
         this.isAvailable = item.Borrowed_Items__c < item.Quantity__c;
+        this.Description = item.Description__c;
     }
 }

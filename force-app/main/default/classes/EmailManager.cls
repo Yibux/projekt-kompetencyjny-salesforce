@@ -23,4 +23,20 @@ public with sharing class EmailManager {
       }
       return String.join(records, '\n');
     }
+
+    public static void sendErrorMessage(String subject, String body) {
+      List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
+
+      Id userId = UserInfo.getUserId();
+      List<User> users = [SELECT Email FROM User WHERE Id = :userId];
+
+      mails.add(
+      createSingleEmail(
+          users[0].Email,
+          body,
+          subject
+      )
+      );
+      Messaging.sendEmail(mails);
+  }
   }

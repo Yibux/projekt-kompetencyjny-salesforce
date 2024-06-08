@@ -3,11 +3,11 @@ public with sharing class ReturnReminder implements Schedulable, Database.Batcha
     public static final String JOB_NAME = 'Notification to return an Item';
     public static final String SUBJECT = 'Return Item Reminder';
     public static final String BORROW_STATUS = 'borrowed';
-    public static final String RETURN_NOTIFICATION = 'Please return the following items:';
+    public static final String RETURN_NOTIFICATION = 'Following items will be returned tomorrow:';
     public static final String RETURN_NOTIFICATION_DATE = 'In following date: ';
     public static final String ERROR_MESSAGE = 'Error sending return reminder';
 
-    public static final String CRON_TIME = '0 0 5 * * ?';
+    public static final String CRON_TIME = '0 12 14 * * ?';
 
 
     @TestVisible

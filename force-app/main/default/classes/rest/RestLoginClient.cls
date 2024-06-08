@@ -28,7 +28,8 @@ global with sharing class RestLoginClient {
     }
 
     private static void payload(Id clientId) {
-        List<Loan__c> loans = [SELECT Id, End_Date__c,Item__r.ID,Item__r.Description__c,Item__r.Genre__c, Item__r.Name FROM Loan__c WHERE Client__c =: clientId];
+        List<Loan__c> loans = [SELECT Id, End_Date__c,Item__r.ID,Item__r.Description__c,Item__r.Genre__c, Item__r.Name FROM Loan__c WHERE Client__c =: clientId and End_Date__c >= TODAY];
+        List<Item__c>
         Map<Id,List<String>> authors = getAuthorsFromItem(loans);
         List<LoanWrapper> payload = new List<LoanWrapper>();
 

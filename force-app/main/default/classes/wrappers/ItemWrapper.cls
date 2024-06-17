@@ -1,5 +1,5 @@
 public with sharing class ItemWrapper {
-    public String id;
+    public String bookId;
     public String authors;
     public String publisher;
     public String genre;
@@ -10,7 +10,7 @@ public with sharing class ItemWrapper {
     public String Description;
 
     public ItemWrapper(Item__c item) {
-        this.id = item.Id;
+        this.bookId = item.Id;
         this.title = item.Name;
         this.authors = null;
         this.publisher = item.Publisher__r.Name;
@@ -21,7 +21,7 @@ public with sharing class ItemWrapper {
         this.Description = item.Description__c;
     }
     public ItemWrapper(Item__c item,List<String> authors,Blob cover) {
-        this.id = item.Id;
+        this.bookId = item.Id;
         this.title = item.Name;
         this.publisher = item.Publisher__r.Name;
         this.genre = item.Genre__c;
